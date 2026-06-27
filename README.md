@@ -21,7 +21,19 @@ npm start        # → http://localhost:4600
 - App:   http://localhost:4600
 - Design board (the original 1:1 restoration): http://localhost:4600/board.html
 
-> Requires Node 18+ (uses the built‑in `node:sqlite`; developed on Node 24). No native build step.
+> Requires **Node 22+** (uses the built‑in `node:sqlite`; developed on Node 24). No native build step.
+
+## Deploy
+
+It's a standard Node web server (honours `PORT`, one‑command `npm start`), so it runs on any Node host. Config files are included:
+
+| Host | How |
+|------|-----|
+| **Render** (easiest, free) | New → **Blueprint** → pick this repo. [`render.yaml`](render.yaml) does the rest. |
+| **Railway** | New Project → Deploy from GitHub. Uses [`Procfile`](Procfile) / auto‑detects `npm start`. |
+| **Fly.io / Cloud Run / any Docker host** | [`Dockerfile`](Dockerfile) → `fly launch` / `docker build`. |
+
+**Storage note:** the SQLite file lives at `data/deinai.db` and is created + seeded on first boot. On ephemeral hosts (free tiers) it resets on each deploy/restart — fine for a demo. For durable data, mount a volume and point `DB_DIR` at it (see the commented block in `render.yaml`).
 
 ## Stack
 

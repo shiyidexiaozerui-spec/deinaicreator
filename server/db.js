@@ -1,9 +1,14 @@
 import { DatabaseSync } from 'node:sqlite';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { mkdirSync } from 'node:fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DB_PATH = join(__dirname, '..', 'data', 'deinai.db');
+// DB_DIR is overridable (e.g. a mounted volume on the host) for durable storage
+const DB_DIR = process.env.DB_DIR || join(__dirname, '..', 'data');
+const DB_PATH = join(DB_DIR, 'deinai.db');
+
+mkdirSync(DB_DIR, { recursive: true }); // ensure the directory exists on a fresh deploy
 
 export const db = new DatabaseSync(DB_PATH);
 db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;');

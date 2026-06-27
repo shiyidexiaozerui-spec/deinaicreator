@@ -1,0 +1,21 @@
+# Render Blueprint — one-click deploy from GitHub (https://render.com)
+# New → Blueprint → pick this repo. Free plan works; disk is ephemeral
+# (the SQLite DB re-seeds on each deploy/spin-down — fine for a demo).
+# For durable data, attach a Disk and set DB_DIR to its mount path.
+services:
+  - type: web
+    name: deinai-creator
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: '24'
+    # --- uncomment for persistent SQLite (paid plans) ---
+    # disk:
+    #   name: data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # then add:  - key: DB_DIR
+    #              value: /var/data
