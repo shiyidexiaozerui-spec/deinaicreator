@@ -1,5 +1,8 @@
 # DeiNai 2.0 · Saudi Edition — Creator AI Commerce (full‑stack)
 
+[![CI](https://github.com/shiyidexiaozerui-spec/deinaicreator/actions/workflows/ci.yml/badge.svg)](https://github.com/shiyidexiaozerui-spec/deinaicreator/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-1E8A5A.svg)](LICENSE)
+
 A working, interactive full‑stack prototype built 1:1 from the original Figma/Claude design.
 A creator authorizes their portrait, AI generates own‑style shoppable videos, they publish to
 their socials and earn on the commission spread. English‑first, Saudi‑green theme, **SAR** currency,
@@ -28,6 +31,40 @@ npm start        # → http://localhost:4600
 | Backend  | Node.js + Express REST API |
 | Storage  | SQLite via built‑in `node:sqlite` → `data/deinai.db` (auto‑created & seeded) |
 | Auth     | Phone + OTP → bearer token (dev mode returns the code so the prototype auto‑fills it) |
+
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph Client["📱 Phone SPA (public/)"]
+        UI["app.js — 8 screens + router"]
+        ST["styles.css — design system"]
+    end
+    subgraph Server["🖥️ Express (server/)"]
+        API["index.js — REST API"]
+        DB[("node:sqlite\ndata/deinai.db")]
+        GO["/go/:code\nlight landing + click tracking"]
+    end
+    UI -- "fetch /api/*  (bearer token)" --> API
+    API --> DB
+    UI -. "QR / Smart Link" .-> GO
+    GO --> DB
+```
+
+The **Smart Link** is the core of distribution: one tracked redirect (`go.deinai.ai/<code>` → `/go/:code`) that carries creator · video · source · promo · UTM, so conversions are trackable on every platform — even the ones whose captions can't hold a clickable link.
+
+```mermaid
+flowchart TD
+    A[Sign up · OTP] --> B[Face capture · PDPL e-sign]
+    B --> C[Connect socials]
+    C --> D[Discover · add to queue]
+    D --> E[Create Studio · generate]
+    E --> F[Distribute · Smart Link]
+    F -->|public 种草| G[TikTok / IG / YouTube → bio<br/>Snapchat → sticker · X → in-post]
+    F -->|private 私域| H[Telegram / WhatsApp → in-message · retention tone]
+    F --> I[Earnings · GMV / commission / withdraw]
+    I --> J[Authorization & Privacy · revoke]
+```
 
 ## Screens (flow order)
 

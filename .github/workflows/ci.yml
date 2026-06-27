@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Syntax check (server + frontend)
+        run: |
+          node --check server/index.js
+          node --check server/db.js
+          node --check public/app.js
+
+      - name: Boot smoke test
+        run: |
+          node server/index.js &
+          SERVER_PID=$!
+          # wait for the server to come up (max ~10s)
+          for i in $(seq 1 20); do
+            if curl -fsS http://localhost:4600/ >/dev/null 2>&1; then break; fi
+            sleep 0.5
+          done
+          echo "→ static index"
+          curl -fsS http://localhost:4600/ >/dev/null && echo "  ✓ index served"
+          echo "→ public QR endpoint"
+          curl -fsS "http://localhost:4600/api/qr?d=https://go.deinai.ai/test" | head -c 20 && echo "  ✓ qr svg"
+          echo "→ design board"
+          curl -fsS http://localhost:4600/board.html >/dev/null && echo "  ✓ board served"
+          kill $SERVER_PID
