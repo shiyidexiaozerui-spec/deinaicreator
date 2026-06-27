@@ -33,6 +33,8 @@ It's a standard Node web server (honours `PORT`, one‑command `npm start`), so 
 | **Railway** | New Project → Deploy from GitHub. Uses [`Procfile`](Procfile) / auto‑detects `npm start`. |
 | **Fly.io / Cloud Run / any Docker host** | [`Dockerfile`](Dockerfile) → `fly launch` / `docker build`. |
 
+**Going to production?** See [`docs/PRODUCTION-CHECKLIST.xlsx`](docs/PRODUCTION-CHECKLIST.xlsx) — a procurement tracker (46 items: video AI, social APIs, SMS/OTP, e‑commerce/affiliate, KYC, cloud/data‑residency, compliance) with MVP cut, lead‑times, and status/owner columns. Built for the Saudi/Gulf market.
+
 **Storage note:** the SQLite file lives at `data/deinai.db` and is created + seeded on first boot. On ephemeral hosts (free tiers) it resets on each deploy/restart — fine for a demo. For durable data, mount a volume and point `DB_DIR` at it (see the commented block in `render.yaml`).
 
 ## Stack
