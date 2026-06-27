@@ -1,0 +1,14 @@
+{
+  "name": "deinai-creator",
+  "version": "2.0.0",
+  "description": "DeiNai 2.0 · Saudi Edition — Creator AI Commerce app (full-stack)",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "qrcode": "^1.5.4"
+  }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>DeiNai 2.0 · Saudi Edition</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="phone" id="phone">
+      <!-- status bar -->
+      <div class="statusbar">
+        <span class="time">9:41</span>
+        <span class="net">5G 100%</span>
+      </div>
+      <!-- screen mounts here -->
+      <div class="screen" id="screen"></div>
+      <!-- bottom tab bar (shown on main screens) -->
+      <div class="tabbar" id="tabbar" hidden></div>
+    </div>
+
+    <div class="sidehint">
+      <div class="sidehint-card">
+        <strong>DeiNai 2.0 · Saudi Edition</strong>
+        <p>Live full-stack prototype. Every action calls the Node + SQLite backend.</p>
+        <ul>
+          <li>Phone number → OTP is auto-filled (dev mode)</li>
+          <li>Products, queue, videos, earnings persist in the DB</li>
+          <li id="apihealth">API: checking…</li>
+        </ul>
+        <a href="/board.html" target="_blank">↗ Open the design board</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
